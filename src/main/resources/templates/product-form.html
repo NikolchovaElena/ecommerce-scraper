@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <th:block th:replace="~{fragments/head :: head}"/>
+</head>
+<body>
+<div class="container mt-5">
+    <form action="/add/form" method="post">
+
+        <div class="form-group col-5">
+            <label for="inputProductName">Product Name:</label>
+            <input type="text" class="form-control" name="name"
+                   id="inputProductName" placeholder="Enter product name">
+        </div>
+
+        <div class="form-group col-5">
+            <label for="inputProductLink">Product link:</label>
+            <input type="text" class="form-control" name="url"
+                   id="inputProductLink" placeholder="Enter product link">
+        </div>
+
+        <div class="form-group col-5">
+            <label for="inputPriceXPath">xPath to price:</label>
+            <input type="text" class="form-control" name="xPathToPrice"
+                   id="inputPriceXPath" placeholder="Enter xPath to price">
+        </div>
+
+        <div class="form-group col-5">
+            <label for="inputTitleXPath">xPath to product title:</label>
+            <input type="text" class="form-control" name="xPathToTitle"
+                   id="inputTitleXPath" placeholder="Enter xPath to product title">
+        </div>
+
+        <button class="btn btn-primary mt-3 col-5" type="submit">Add new</button>
+
+    </form>
+</div>
+<th:block th:replace="~{fragments/scripts :: scripts}"/>
+</body>
+</html>

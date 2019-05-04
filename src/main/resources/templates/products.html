@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragments/head :: head}"/>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row">
+        <table id="products_table_id" class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Product name</th>
+                <th scope="col">Product link</th>
+                <th scope="col">Price xPath</th>
+                <th scope="col">Title xPath</th>
+                <th scope="col">min Price</th>
+            </tr>
+            </thead>
+            <tbody class="text-black">
+            <th:block th:each="product : ${model}">
+
+                <tr>
+                    <th scope="row" th:text="${productStat.count}"></th>
+                    <td>
+                        <a th:href="@{/product/{id}(id=${product.id})}" th:text="${product.name}"></a>
+                    </td>
+                    <td th:text="${product.url}"></td>
+                    <td th:text="${product.xPathToPrice}"></td>
+                    <td th:text="${product.xPathToTitle}"></td>
+                    <td th:text="${product.minPrice}"></td>
+                </tr>
+
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+</div>
+<th:block th:replace="~{fragments/scripts :: scripts}"/>
+</body>
+</html>
