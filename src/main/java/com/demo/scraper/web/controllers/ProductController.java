@@ -1,7 +1,7 @@
 package com.demo.scraper.web.controllers;
 
 import com.demo.scraper.domain.models.ProductBindingModel;
-import com.demo.scraper.domain.models.ProductViewModel;
+import com.demo.scraper.domain.models.ProductDetailsViewModel;
 import com.demo.scraper.service.api.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,7 +35,7 @@ public class ProductController extends BaseController {
 
     @GetMapping("/products")
     public ModelAndView products(ModelAndView modelAndView) {
-        modelAndView.addObject("model", productService.findAllWithPrices());
+        modelAndView.addObject("model", productService.findAll());
 
         return view("products", modelAndView);
     }
@@ -43,8 +43,8 @@ public class ProductController extends BaseController {
     @GetMapping("/product/{id}")
     public ModelAndView products(@PathVariable("id") Long id,
                                  ModelAndView modelAndView) {
-        ProductViewModel productViewModel = productService.findBy(id);
-        modelAndView.addObject("product", productViewModel);
+        ProductDetailsViewModel productDetailsViewModel = productService.findBy(id);
+        modelAndView.addObject("product", productDetailsViewModel);
 
         return view("product-details", modelAndView);
     }

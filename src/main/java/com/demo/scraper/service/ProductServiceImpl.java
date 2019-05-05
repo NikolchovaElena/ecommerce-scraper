@@ -1,7 +1,9 @@
 package com.demo.scraper.service;
 
+import com.demo.scraper.domain.entities.Log;
 import com.demo.scraper.domain.entities.Product;
 import com.demo.scraper.domain.models.ProductBindingModel;
+import com.demo.scraper.domain.models.ProductDetailsViewModel;
 import com.demo.scraper.domain.models.ProductViewModel;
 import com.demo.scraper.repository.ProductRepository;
 import com.demo.scraper.service.api.LogService;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements ProductService {
     private final static int MAX_PARAM_LENGTH = 30;
+
     private ProductRepository productRepository;
     private LogService logService;
     private ModelMapper mapper;
@@ -38,16 +41,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductViewModel> findAllWithPrices() {
+    public List<ProductViewModel> findAll() {
         List<ProductViewModel> products = this.productRepository.findAll().stream()
                 .map(p -> {
                     ProductViewModel product = mapper.map(p, ProductViewModel.class);
                     product.setId(p.getId());
-                    product.setName(trimProduct(p.getName()));
-                    product.setUrl(trimProduct(p.getUrl()));
-                    product.setxPathToPrice(trimProduct(p.getxPathToPrice()));
-                    product.setxPathToTitle(trimProduct(p.getxPathToTitle()));
-                    product.setMinPrice(logService.findMinPrice(p));
+                    product.setName(trimProduct(p.getName(), MAX_PARAM_LENGTH));
+                    product.setUrl(trimProduct(p.getUrl(), MAX_PARAM_LENGTH));
+                    product.setCurrentPrice(getCurrentPrice(getCurrentLog(p)));
+                    product.setCurrentTitle(getCurrentTitle(getCurrentLog(p)));
                     return product;
                 }).collect(Collectors.toList());
 
@@ -55,17 +57,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductViewModel findBy(Long id) {
+    public ProductDetailsViewModel findBy(Long id) {
         Product p = productRepository.findById(id)
                 .orElseThrow(() -> new NullPointerException("No product by that id!"));
 
-        ProductViewModel model = mapper.map(p, ProductViewModel.class);
-        model.setMinPrice(logService.findMinPrice(p));
+        ProductDetailsViewModel model = mapper.map(p, ProductDetailsViewModel.class);
+        model.setCurrentPrice(logService.findMinPrice(p));
         return model;
     }
 
+    //TODO substitute with cron
+
     /**
-     * runs every 12 hours
+     * runs every 24 hours
      */
     @Scheduled(fixedRate = 86400000)
     private void updateLogs() throws IOException {
@@ -81,23 +85,22 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    private String trimProduct(String s) {
-        if (s.length() > MAX_PARAM_LENGTH) {
-            return s.substring(0, MAX_PARAM_LENGTH);
+    private String trimProduct(String s, int maxLength) {
+        if (s.length() > maxLength) {
+            return s.substring(0, maxLength);
         }
         return s;
     }
 
+    private Log getCurrentLog(Product product) {
+        return this.logService.getCurrentLog(product);
+    }
 
-    //    private void getMinPrice(List<Product> products) {
-//        BigDecimal minValue = BigDecimal.ZERO;
-//
-//        for (Log log : this.logs) {
-//            if (log.getPrice().compareTo(minValue) > 0) {
-//                minValue = log.getPrice();
-//            }
-//        }
-//        this.minPrice = minValue;
-//    }
+    private String getCurrentPrice(Log log) {
+        return log.getPrice() + " " + log.getCurrency();
+    }
 
+    private String getCurrentTitle(Log log) {
+        return log.getTitle();
+    }
 }
