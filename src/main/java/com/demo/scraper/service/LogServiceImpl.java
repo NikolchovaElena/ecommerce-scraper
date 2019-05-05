@@ -28,6 +28,10 @@ public class LogServiceImpl implements LogService {
         logRepository.save(log);
     }
 
+    public Log getCurrentLog(Product product) {
+        return this.logRepository.findFirstByProductOrderByDateAsc(product);
+    }
+
     @Override
     public String findMinPrice(Product product) {
         Log log = logRepository.findFirstByProductOrderByPriceAsc(product);

@@ -4,6 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.util.logging.Level;
+
 // TODO Интеграция с API-a на shopify за смяна на цените автоматично
 
 @EnableScheduling

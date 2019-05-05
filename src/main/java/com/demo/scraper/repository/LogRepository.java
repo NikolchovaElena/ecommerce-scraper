@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LogRepository extends JpaRepository<Log, Long> {
 
-    Log findTopByOrderByPriceAsc();
     Log findFirstByProductOrderByPriceAsc(Product product);
+
+    Log findFirstByProductOrderByDateAsc(Product product);
 }
