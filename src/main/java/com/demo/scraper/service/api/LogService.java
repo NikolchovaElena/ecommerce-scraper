@@ -1,5 +1,6 @@
 package com.demo.scraper.service.api;
 
+import com.demo.scraper.domain.entities.Log;
 import com.demo.scraper.domain.entities.Product;
 
 public interface LogService {
@@ -8,4 +9,5 @@ public interface LogService {
 
     String findMinPrice(Product product);
 
+    Log getCurrentLog(Product product);
 }

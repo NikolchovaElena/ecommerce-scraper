@@ -1,11 +1,14 @@
 package com.demo.scraper.domain.models;
 
-public class ProductViewModel {
+import org.hibernate.validator.constraints.Length;
+
+public class ProductDetailsViewModel {
 
     private Long id;
     private String name;
     private String url;
-    private String currentTitle;
+    private String xPathToPrice;
+    private String xPathToTitle;
     private String currentPrice;
 
     public Long getId() {
@@ -24,6 +27,7 @@ public class ProductViewModel {
         this.name = name;
     }
 
+    @Length(max = 20)
     public String getUrl() {
         return url;
     }
@@ -32,12 +36,20 @@ public class ProductViewModel {
         this.url = url;
     }
 
-    public String getCurrentTitle() {
-        return currentTitle;
+    public String getxPathToPrice() {
+        return xPathToPrice;
     }
 
-    public void setCurrentTitle(String currentTitle) {
-        this.currentTitle = currentTitle;
+    public void setxPathToPrice(String xPathToPrice) {
+        this.xPathToPrice = xPathToPrice;
+    }
+
+    public String getxPathToTitle() {
+        return xPathToTitle;
+    }
+
+    public void setxPathToTitle(String xPathToTitle) {
+        this.xPathToTitle = xPathToTitle;
     }
 
     public String getCurrentPrice() {

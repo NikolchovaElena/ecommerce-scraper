@@ -9,26 +9,25 @@
         <table id="products_table_id" class="table">
             <thead>
             <tr>
-                <th scope="col">#</th>
                 <th scope="col">Product name</th>
                 <th scope="col">Product link</th>
-                <th scope="col">Price xPath</th>
-                <th scope="col">Title xPath</th>
-                <th scope="col">min Price</th>
+                <th scope="col">Current Price</th>
+                <th scope="col">Current Title</th>
             </tr>
             </thead>
             <tbody class="text-black">
             <th:block th:each="product : ${model}">
 
                 <tr>
-                    <th scope="row" th:text="${productStat.count}"></th>
                     <td>
-                        <a th:href="@{/product/{id}(id=${product.id})}" th:text="${product.name}"></a>
+                        <a th:href="@{/product/{name}(name=${product.name})}" th:text="${product.name}"></a>
                     </td>
-                    <td th:text="${product.url}"></td>
-                    <td th:text="${product.xPathToPrice}"></td>
-                    <td th:text="${product.xPathToTitle}"></td>
-                    <td th:text="${product.minPrice}"></td>
+
+                    <td>
+                        <a th:href="@{/product/{id}(id=${product.id})}" th:text="${product.url}"></a>
+                    </td>
+                    <td th:text="${product.currentPrice}"></td>
+                    <td th:text="${product.currentTitle}"></td>
                 </tr>
 
             </th:block>
