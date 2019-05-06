@@ -24,7 +24,7 @@ public class ScraperService {
         this.webClient = webClient;
     }
 
-    public String[] scrapeProductInfo(Product product) throws IOException {
+    String[] scrapeProductInfo(Product product) throws IOException {
         webClient.getOptions().setCssEnabled(false);
         webClient.getOptions().setJavaScriptEnabled(false);
 
