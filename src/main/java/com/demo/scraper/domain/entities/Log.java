@@ -4,7 +4,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 
 @NoArgsConstructor
 @Entity
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 public class Log extends BaseEntity {
 
     private Product product;
-    private LocalDate date;
+    private Date timestamp;
     private BigDecimal price;
     private String currency;
     private String title;
@@ -26,7 +27,7 @@ public class Log extends BaseEntity {
 
     @PrePersist
     public void prePersist() {
-        date = LocalDate.now();
+        timestamp = new Date();
     }
 
     @ManyToOne
@@ -67,11 +68,12 @@ public class Log extends BaseEntity {
     }
 
     @Column(nullable = false)
-    public LocalDate getDate() {
-        return date;
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getTimestamp() {
+        return timestamp;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 }

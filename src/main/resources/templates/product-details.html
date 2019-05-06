@@ -29,7 +29,24 @@
             </dl>
         </div>
 
-        <canvas id="myChart"></canvas>
+        <input type="hidden" id="product_id" th:value="${product.id}"/>
+        <input type="hidden" id="series_name" th:value="${product.url}"/>
+        <div id="container"></div>
+        <!--<form>-->
+            <!--<div>-->
+                <!--Click this button to reset zoom:-->
+                <!--<input type="button" id="resetZoom" value="Reset">-->
+            <!--</div>-->
+            <!--<div>-->
+                <!--Click this button to zoom in:-->
+                <!--<input type="button" id="zoomIn" value="Zoom in">-->
+            <!--</div>-->
+            <!--<div>-->
+                <!--Click this button to zoom in a little more:-->
+                <!--<input type="button" id="zoomInMore" value="Zoom in more">-->
+            <!--</div>-->
+        <!--</form>-->
+
     </div>
 </div>
 <th:block th:replace="~{fragments/scripts :: scripts}"/>

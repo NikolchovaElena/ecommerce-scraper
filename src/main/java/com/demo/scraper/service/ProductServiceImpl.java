@@ -20,11 +20,12 @@ import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements ProductService {
     private final static int MAX_PARAM_LENGTH = 30;
+    private final static String TIME_ZONE = "Europe/Sofia";
 
-    private ProductRepository productRepository;
-    private LogService logService;
-    private ModelMapper mapper;
-    private ScraperService scraper;
+    private final ProductRepository productRepository;
+    private final LogService logService;
+    private final ModelMapper mapper;
+    private final ScraperService scraper;
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository, LogService logService, ModelMapper mapper, ScraperService scraper) {
@@ -62,16 +63,14 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new NullPointerException("No product by that id!"));
 
         ProductDetailsViewModel model = mapper.map(p, ProductDetailsViewModel.class);
-        model.setCurrentPrice(logService.findMinPrice(p));
+        model.setCurrentPrice(getCurrentPrice(getCurrentLog(p)));
         return model;
     }
 
-    //TODO substitute with cron
-
     /**
-     * runs every 24 hours
+     * runs every day at noon
      */
-    @Scheduled(fixedRate = 86400000)
+    @Scheduled(cron = "0 0 12 * * ?", zone = TIME_ZONE)
     private void updateLogs() throws IOException {
         List<Product> products = this.productRepository.findAll();
 

@@ -2,17 +2,20 @@ package com.demo.scraper.service;
 
 import com.demo.scraper.domain.entities.Log;
 import com.demo.scraper.domain.entities.Product;
+import com.demo.scraper.domain.models.LogViewModel;
 import com.demo.scraper.repository.LogRepository;
 import com.demo.scraper.service.api.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LogServiceImpl implements LogService {
 
-    private LogRepository logRepository;
+    private final LogRepository logRepository;
 
     @Autowired
     public LogServiceImpl(LogRepository logRepository) {
@@ -28,13 +31,18 @@ public class LogServiceImpl implements LogService {
         logRepository.save(log);
     }
 
-    public Log getCurrentLog(Product product) {
-        return this.logRepository.findFirstByProductOrderByDateAsc(product);
+    @Override
+    public List<LogViewModel> findAll(Long id) {
+        return logRepository.findAllByProductId(id)
+                .stream()
+                .map(l -> new LogViewModel(l.getTimestamp().getTime(), l.getPrice()))
+                .collect(Collectors.toList());
     }
 
-    @Override
-    public String findMinPrice(Product product) {
-        Log log = logRepository.findFirstByProductOrderByPriceAsc(product);
-        return log == null ? "0" : log.getPrice() + " " + log.getCurrency();
+    public Log getCurrentLog(Product product) {
+        return this.logRepository.findFirstByProductOrderByTimestampDesc(product);
     }
+
+
+
 }
