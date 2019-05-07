@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,6 +40,13 @@ public class ProductServiceImpl implements ProductService {
     public void add(ProductBindingModel model) {
         Product product = mapper.map(model, Product.class);
         productRepository.save(product);
+    }
+
+    @Override
+    public void delete(Long id) {
+        Product p = productRepository.findById(id)
+                .orElseThrow(() -> new NullPointerException("No product by that id!"));
+        this.productRepository.delete(p);
     }
 
     @Override
@@ -67,10 +75,40 @@ public class ProductServiceImpl implements ProductService {
         return model;
     }
 
+    @Override
+    public void edit(Map<String, String> body) {
+        String name = body.get("name");
+        String value = body.get("value");
+        Long id = Long.parseLong(body.get("pk"));
+
+        Product p = productRepository.findById(id)
+                .orElseThrow(() -> new NullPointerException("No product by that id!"));
+
+        edit(p, name, value);
+        productRepository.save(p);
+    }
+
+    private void edit(Product product, String name, String value) {
+        switch (name) {
+            case "url":
+                product.setUrl(value);
+                break;
+            case "xPathToPrice":
+                product.setxPathToPrice(value);
+                break;
+            case "xPathToTitle":
+                product.setxPathToTitle(value);
+                break;
+            default:
+                throw new IllegalArgumentException("Product has no param with that name");
+        }
+    }
+
     /**
      * runs every day at noon
      */
     @Scheduled(cron = "0 0 12 * * ?", zone = TIME_ZONE)
+    //@Scheduled(fixedRate = 18000000)
     private void updateLogs() throws IOException {
         List<Product> products = this.productRepository.findAll();
 
@@ -96,10 +134,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private String getCurrentPrice(Log log) {
-        return log.getPrice() + " " + log.getCurrency();
+
+        return log == null ? "" : log.getPrice() + " " + log.getCurrency();
     }
 
     private String getCurrentTitle(Log log) {
-        return log.getTitle();
+        return log == null ? "" : log.getTitle();
     }
 }

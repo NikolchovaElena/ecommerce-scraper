@@ -1,6 +1,5 @@
 package com.demo.scraper.web.controllers;
 
-import com.demo.scraper.domain.models.LogViewModel;
 import com.demo.scraper.domain.models.ProductBindingModel;
 import com.demo.scraper.domain.models.ProductDetailsViewModel;
 import com.demo.scraper.service.api.ProductService;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ProductController extends BaseController {
@@ -33,7 +32,7 @@ public class ProductController extends BaseController {
         return redirect("/products");
     }
 
-    @GetMapping("/products")
+    @GetMapping("/")
     public ModelAndView products(ModelAndView modelAndView) {
         modelAndView.addObject("model", productService.findAll());
 
@@ -49,4 +48,15 @@ public class ProductController extends BaseController {
         return view("product-details", modelAndView);
     }
 
+    @ResponseBody
+    @PostMapping("/delete/product/{id}")
+    public void deleteTableEntry(@PathVariable("id") Long id) {
+        productService.delete(id);
+    }
+
+    @ResponseBody
+    @PostMapping("/edit/product")
+    public void editProduct(@RequestParam Map<String, String> body) {
+        productService.edit(body);
+    }
 }
