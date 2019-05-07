@@ -5,6 +5,10 @@
 </head>
 <body>
 <div class="container mt-5">
+    <div class="row mb-4">
+        <a href="/add/form" class="btn btn-primary btn-lg active"
+           role="button">Add new entry to the table</a>
+    </div>
     <div class="row">
         <table id="products_table_id" class="table">
             <thead>
@@ -13,28 +17,43 @@
                 <th scope="col">Product link</th>
                 <th scope="col">Current Price</th>
                 <th scope="col">Current Title</th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody class="text-black">
             <th:block th:each="product : ${model}">
 
                 <tr>
-                    <td>
-                        <a th:href="@{/product/{name}(name=${product.name})}" th:text="${product.name}"></a>
-                    </td>
-
+                    <td th:text="${product.name}"></td>
                     <td>
                         <a th:href="@{/product/{id}(id=${product.id})}" th:text="${product.url}"></a>
                     </td>
                     <td th:text="${product.currentPrice}"></td>
                     <td th:text="${product.currentTitle}"></td>
+                    <td>
+                        <div id="btn-delete-product">
+                            <form>
+                                <button th:product_id="${product.id}" class="as-link" type="submit">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
                 </tr>
 
             </th:block>
             </tbody>
         </table>
+        <br>
     </div>
 </div>
+
+<!--scripts-->
 <th:block th:replace="~{fragments/scripts :: scripts}"/>
+
+<!--dataTables-->
+<script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+<script th:src="@{/js/data-table.js}"></script>
 </body>
 </html>

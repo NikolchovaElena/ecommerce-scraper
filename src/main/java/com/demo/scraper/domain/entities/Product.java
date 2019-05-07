@@ -3,7 +3,6 @@ package com.demo.scraper.domain.entities;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.List;
 
 @NoArgsConstructor
@@ -53,7 +52,7 @@ public class Product extends BaseEntity {
         this.xPathToTitle = xPathToTitle;
     }
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval=true)
     public List<Log> getLogs() {
         return logs;
     }
