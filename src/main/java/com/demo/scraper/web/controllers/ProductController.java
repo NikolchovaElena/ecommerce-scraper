@@ -1,7 +1,6 @@
 package com.demo.scraper.web.controllers;
 
 import com.demo.scraper.domain.models.ProductBindingModel;
-import com.demo.scraper.domain.models.ProductDetailsViewModel;
 import com.demo.scraper.service.api.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,39 +18,19 @@ public class ProductController extends BaseController {
         this.productService = productService;
     }
 
-    @GetMapping("/add/form")
-    public ModelAndView addProductForm(ModelAndView modelAndView) {
-
-        modelAndView.addObject(new ProductBindingModel());
-        return view("product-form", modelAndView);
-    }
-
-    @PostMapping("/add/form")
-    public ModelAndView addProduct(@ModelAttribute("model") ProductBindingModel model) {
+    @ResponseBody
+    @PostMapping(value = "/add/product/form")
+    public void addProduct(@RequestBody() ProductBindingModel model) {
         productService.add(model);
-        return redirect("/products");
-    }
-
-    @GetMapping("/")
-    public ModelAndView products(ModelAndView modelAndView) {
-        modelAndView.addObject("model", productService.findAll());
-
-        return view("products", modelAndView);
-    }
-
-    @GetMapping("/product/{id}")
-    public ModelAndView products(@PathVariable("id") Long id,
-                                 ModelAndView modelAndView) {
-        ProductDetailsViewModel productDetailsViewModel = productService.findBy(id);
-        modelAndView.addObject("product", productDetailsViewModel);
-
-        return view("product-details", modelAndView);
     }
 
     @ResponseBody
-    @PostMapping("/delete/product/{id}")
-    public void deleteTableEntry(@PathVariable("id") Long id) {
-        productService.delete(id);
+    @PostMapping("/edit/product-name")
+    public void editProductName(@RequestParam Map<String, String> body) {
+        String oldName = body.get("name");
+        String newName = body.get("value");
+
+        productService.edit(oldName, newName);
     }
 
     @ResponseBody
@@ -59,4 +38,12 @@ public class ProductController extends BaseController {
     public void editProduct(@RequestParam Map<String, String> body) {
         productService.edit(body);
     }
+
+    @GetMapping("/products")
+    public ModelAndView products(ModelAndView modelAndView) {
+        modelAndView.addObject("model", productService.findAll());
+
+        return view("products", modelAndView);
+    }
+
 }

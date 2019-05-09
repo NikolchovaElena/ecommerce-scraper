@@ -2,58 +2,77 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="~{fragments/head :: head}"/>
+
+    <!--x-editable-->
+    <link rel="stylesheet" th:href="@{/css/jquery-editable.css}"/>
+
+    <!--scripts-->
+    <th:block th:replace="~{fragments/scripts :: scripts}"/>
+
+    <!--x-editable-->
+    <script th:src="@{/js/jquery-editable-poshytip.js}"></script>
+    <script th:src="@{/js/data-edit.js}"></script>
+
+    <!--dataTables-->
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script th:src="@{/js/data-table-products.js}"></script>
+    <script th:src="@{/js/data-table-row-delete.js}"></script>
 </head>
 <body>
 <div class="container mt-5">
-    <div class="row mb-4">
-        <a href="/add/form" class="btn btn-primary btn-lg active"
-           role="button">Add new entry to the table</a>
-    </div>
+
     <div class="row">
         <table id="products_table_id" class="table">
             <thead>
             <tr>
                 <th scope="col">Product name</th>
-                <th scope="col">Product link</th>
                 <th scope="col">Current Price</th>
-                <th scope="col">Current Title</th>
-                <th scope="col"></th>
+                <th scope="col">Currency</th>
             </tr>
             </thead>
             <tbody class="text-black">
-            <th:block th:each="product : ${model}">
+            <th:block th:each="entry : ${model}">
 
                 <tr>
-                    <td th:text="${product.name}"></td>
                     <td>
-                        <a th:href="@{/product/{id}(id=${product.id})}" th:text="${product.url}"></a>
+                        <a href="#"
+                           data-name="name"
+                           class="product-name-single-edit no-link-style"
+                           th:data-pk="${entry.id}"
+                           data-url="/edit/product"
+                           th:text="${entry.name}">
+                        </a>
                     </td>
-                    <td th:text="${product.currentPrice}"></td>
-                    <td th:text="${product.currentTitle}"></td>
                     <td>
-                        <div id="btn-delete-product">
-                            <form>
-                                <button th:product_id="${product.id}" class="as-link" type="submit">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </form>
-                        </div>
+                        <a href="#"
+                           data-name="currentPrice"
+                           class="current-price-edit no-link-style"
+                           th:data-pk="${entry.id}"
+                           data-url="/edit/product"
+                           th:text="${entry.currentPrice}">
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#"
+                           data-name="currency"
+                           class="currency-edit no-link-style"
+                           th:data-pk="${entry.id}"
+                           data-url="/edit/product"
+                           th:text="${entry.currency}">
+                        </a>
                     </td>
                 </tr>
 
             </th:block>
             </tbody>
         </table>
+
         <br>
     </div>
+
+    <br>
+    <a href="/"><i class="fas fa-arrow-left"></i> Back to all products</a>
 </div>
-
-<!--scripts-->
-<th:block th:replace="~{fragments/scripts :: scripts}"/>
-
-<!--dataTables-->
-<script type="text/javascript" charset="utf8"
-        src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-<script th:src="@{/js/data-table.js}"></script>
 </body>
 </html>

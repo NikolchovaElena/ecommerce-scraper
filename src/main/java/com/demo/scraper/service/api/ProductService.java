@@ -1,7 +1,9 @@
 package com.demo.scraper.service.api;
 
+import com.demo.scraper.domain.entities.Competitor;
+import com.demo.scraper.domain.entities.Product;
 import com.demo.scraper.domain.models.ProductBindingModel;
-import com.demo.scraper.domain.models.ProductDetailsViewModel;
+import com.demo.scraper.domain.models.ProductProjection;
 import com.demo.scraper.domain.models.ProductViewModel;
 
 import java.util.List;
@@ -11,11 +13,17 @@ public interface ProductService {
 
     void add(ProductBindingModel model);
 
-    void delete(Long id);
+    //TODO refactor
+    void edit(Map<String, String> body);
+
+    //TODO refactor
+    void edit(String oldName, String newName);
+
+    boolean doesProductExists(Long id);
+
+    List<ProductProjection> findAllProductNames();
+
+    void deleteCompetitor(Product product, Competitor competitor);
 
     List<ProductViewModel> findAll();
-
-    ProductDetailsViewModel findBy(Long id);
-
-    void edit(Map<String, String> body);
 }

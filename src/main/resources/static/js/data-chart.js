@@ -1,7 +1,7 @@
 $(document).ready(function () {
     var width = $("#container").width();
 
-    var id = $('#product_id').val();
+    var id = $('#competitor_id').val();
     var url = $('#series_name').val();
 
     var myRegexp = /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/g;
@@ -13,7 +13,7 @@ $(document).ready(function () {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        url: '/logs/product/' + id,
+        url: '/logs/competitors/' + id,
         type: 'GET'
     })
         .done(function (data) {

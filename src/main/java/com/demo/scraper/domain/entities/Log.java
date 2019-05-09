@@ -4,7 +4,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Calendar;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -12,14 +11,14 @@ import java.util.Date;
 @Table(name = "logs")
 public class Log extends BaseEntity {
 
-    private Product product;
+    private Competitor competitor;
     private Date timestamp;
     private BigDecimal price;
     private String currency;
     private String title;
 
-    public Log(Product product, BigDecimal price, String currency, String title) {
-        this.product = product;
+    public Log(Competitor competitor, BigDecimal price, String currency, String title) {
+        this.competitor = competitor;
         this.price = price;
         this.currency = currency;
         this.title = title;
@@ -31,13 +30,13 @@ public class Log extends BaseEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    public Product getProduct() {
-        return product;
+    @JoinColumn(name = "competitor_id", nullable = false)
+    public Competitor getCompetitor() {
+        return competitor;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setCompetitor(Competitor competitor) {
+        this.competitor = competitor;
     }
 
     @Column(nullable = false)
