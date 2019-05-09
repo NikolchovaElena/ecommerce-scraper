@@ -5,6 +5,17 @@
 
     <!--x-editable-->
     <link rel="stylesheet" th:href="@{/css/jquery-editable.css}"/>
+
+    <!--scripts-->
+    <th:block th:replace="~{fragments/scripts :: scripts}"/>
+
+    <!--x-editable-->
+    <script th:src="@{/js/jquery-editable-poshytip.js}"></script>
+    <script th:src="@{/js/data-edit.js}"></script>
+
+    <!--highCharts-->
+    <script src="http://code.highcharts.com/stock/highstock.js"></script>
+    <script th:src="@{/js/data-chart.js}"></script>
 </head>
 
 <body>
@@ -13,12 +24,12 @@
         <div class="jumbotron">
             <dl class="row" id="product_info">
                 <dt class="col-sm-3">Product Name:</dt>
-                <dd class="col-sm-9"><h5 th:text="${product.name}"></h5></dd>
+                <dd class="col-sm-9"><h5 th:text="${competitor.productName}"></h5></dd>
 
                 <dt class="col-sm-3">Product current Price:</dt>
                 <dd class="col-sm-9">
                     <h5>
-                        <mark th:text="${product.currentPrice}"></mark>
+                        <mark th:text="${competitor.currentPrice}"></mark>
                     </h5>
                 </dd>
 
@@ -27,9 +38,9 @@
                     <a href="#"
                        id="url"
                        data-type="text"
-                       th:data-pk="${product.id}"
-                       data-url="/edit/product"
-                       th:text="${product.url}"></a>
+                       th:data-pk="${competitor.id}"
+                       data-url="/edit/competitor"
+                       th:text="${competitor.url}"></a>
                 </dd>
 
                 <dt class="col-sm-3">Product xPath to price:</dt>
@@ -37,9 +48,9 @@
                     <a href="#"
                        id="xPathToPrice"
                        data-type="text"
-                       th:data-pk="${product.id}"
-                       data-url="/edit/product"
-                       th:text="${product.xPathToPrice}"></a>
+                       th:data-pk="${competitor.id}"
+                       data-url="/edit/competitor"
+                       th:text="${competitor.xPathToPrice}"></a>
                 </dd>
 
                 <dt class="col-sm-3">Product xPath to title:</dt>
@@ -47,32 +58,20 @@
                     <a href="#"
                        id="xPathToTitle"
                        data-type="text"
-                       th:data-pk="${product.id}"
-                       data-url="/edit/product"
-                       th:text="${product.xPathToTitle}"></a>
+                       th:data-pk="${competitor.id}"
+                       data-url="/edit/competitor"
+                       th:text="${competitor.xPathToTitle}"></a>
                 </dd>
             </dl>
 
             <a href="/"><i class="fas fa-arrow-left"></i> Back to all products</a>
         </div>
 
-        <input type="hidden" id="product_id" th:value="${product.id}"/>
-        <input type="hidden" id="series_name" th:value="${product.url}"/>
+        <input type="hidden" id="competitor_id" th:value="${competitor.id}"/>
+        <input type="hidden" id="series_name" th:value="${competitor.url}"/>
         <div id="container"></div>
 
     </div>
 </div>
-
-<!--scripts-->
-<th:block th:replace="~{fragments/scripts :: scripts}"/>
-
-<!--x-editable-->
-<script th:src="@{/js/jquery-editable-poshytip.js}"></script>
-<script th:src="@{/js/data-edit.js}"></script>
-
-<!--highCharts-->
-<script src="http://code.highcharts.com/stock/highstock.js"></script>
-<script th:src="@{/js/data-chart.js}"></script>
-
 </body>
 </html>

@@ -3,6 +3,7 @@ package com.demo.scraper.domain.entities;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @NoArgsConstructor
@@ -11,12 +12,17 @@ import java.util.List;
 public class Product extends BaseEntity {
 
     private String name;
-    private String url;
-    private String xPathToPrice;
-    private String xPathToTitle;
-    private List<Log> logs;
+    private List<Competitor> competitors;
+    private BigDecimal currentPrice;
+    private String currency;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    public Product(String name, BigDecimal currentPrice, String currency) {
+        this.name = name;
+        this.currentPrice = currentPrice;
+        this.currency = currency;
+    }
+
+    @Column(nullable = false, unique = true, columnDefinition = "TEXT")
     public String getName() {
         return name;
     }
@@ -25,39 +31,30 @@ public class Product extends BaseEntity {
         this.name = name;
     }
 
-    @Column(nullable = false, unique = true, columnDefinition = "TEXT")
-    public String getUrl() {
-        return url;
+    @Column(nullable = false)
+    public BigDecimal getCurrentPrice() {
+        return currentPrice;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setCurrentPrice(BigDecimal currentPrice) {
+        this.currentPrice =currentPrice;
     }
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    public String getxPathToPrice() {
-        return xPathToPrice;
+    @Column
+    public String getCurrency() {
+        return currency;
     }
 
-    public void setxPathToPrice(String xPathToPrice) {
-        this.xPathToPrice = xPathToPrice;
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    public String getxPathToTitle() {
-        return xPathToTitle;
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    public List<Competitor> getCompetitors() {
+        return competitors;
     }
 
-    public void setxPathToTitle(String xPathToTitle) {
-        this.xPathToTitle = xPathToTitle;
-    }
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval=true)
-    public List<Log> getLogs() {
-        return logs;
-    }
-
-    public void setLogs(List<Log> logs) {
-        this.logs = logs;
+    public void setCompetitors(List<Competitor> competitors) {
+        this.competitors = competitors;
     }
 }

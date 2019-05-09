@@ -1,12 +1,16 @@
 package com.demo.scraper.domain.models;
 
+import com.demo.scraper.domain.entities.Competitor;
+
+import java.math.BigDecimal;
+import java.util.List;
+
 public class ProductViewModel {
 
     private Long id;
     private String name;
-    private String url;
-    private String currentTitle;
-    private String currentPrice;
+    private BigDecimal currentPrice;
+    private String currency;
 
     public Long getId() {
         return id;
@@ -24,27 +28,19 @@ public class ProductViewModel {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getCurrentTitle() {
-        return currentTitle;
-    }
-
-    public void setCurrentTitle(String currentTitle) {
-        this.currentTitle = currentTitle;
-    }
-
-    public String getCurrentPrice() {
+    public BigDecimal getCurrentPrice() {
         return currentPrice;
     }
 
-    public void setCurrentPrice(String currentPrice) {
+    public void setCurrentPrice(BigDecimal currentPrice) {
         this.currentPrice = currentPrice;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }

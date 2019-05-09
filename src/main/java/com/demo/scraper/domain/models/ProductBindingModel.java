@@ -1,24 +1,13 @@
 package com.demo.scraper.domain.models;
 
-import com.demo.scraper.domain.entities.BaseEntity;
-import com.demo.scraper.domain.entities.Log;
-import lombok.NoArgsConstructor;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import java.util.List;
-
-@NoArgsConstructor
-@Entity
-@Table(name = "products")
-public class ProductBindingModel extends BaseEntity {
+public class ProductBindingModel {
 
     private String name;
-    private String url;
-    private String xPathToPrice;
-    private String xPathToTitle;
+    private String currentPrice;
+    private String currency;
 
     public String getName() {
         return name;
@@ -28,27 +17,19 @@ public class ProductBindingModel extends BaseEntity {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
+    public String getCurrentPrice() {
+        return currentPrice;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setCurrentPrice(String currentPrice) {
+        this.currentPrice = currentPrice;
     }
 
-    public String getxPathToPrice() {
-        return xPathToPrice;
+    public String getCurrency() {
+        return currency;
     }
 
-    public void setxPathToPrice(String xPathToPrice) {
-        this.xPathToPrice = xPathToPrice;
-    }
-
-    public String getxPathToTitle() {
-        return xPathToTitle;
-    }
-
-    public void setxPathToTitle(String xPathToTitle) {
-        this.xPathToTitle = xPathToTitle;
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }

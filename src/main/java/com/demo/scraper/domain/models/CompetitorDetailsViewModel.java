@@ -2,10 +2,10 @@ package com.demo.scraper.domain.models;
 
 import org.hibernate.validator.constraints.Length;
 
-public class ProductDetailsViewModel {
+public class CompetitorDetailsViewModel {
 
     private Long id;
-    private String name;
+    private String productName;
     private String url;
     private String xPathToPrice;
     private String xPathToTitle;
@@ -19,15 +19,14 @@ public class ProductDetailsViewModel {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    @Length(max = 20)
     public String getUrl() {
         return url;
     }

@@ -1,21 +1,30 @@
 .bg-color-dark {
-	background-color: #483D8B;
-	color: #A9A9A9;
+    background-color: #483D8B;
+    color: #A9A9A9;
 }
 
 .footer {
-	background-color: #483D8B;
-	color: #A9A9A9;
+    background-color: #483D8B;
+    color: #A9A9A9;
 }
 
-.nav-item>a:hover, .navbar-brand:hover {
-	color: #FFFFFF;
+.nav-item > a:hover, .navbar-brand:hover {
+    color: #FFFFFF;
 }
 
 iframe {
-	overflow:hidden;
+    overflow: hidden;
 }
 
 .jumbotron {
-	background-color:#ededf9!important;
+    background-color: #ededf9 !important;
+}
+
+.field-error {
+    color: red;
+}
+
+.no-link-style {
+    color: black;
+    text-decoration: none;
 }

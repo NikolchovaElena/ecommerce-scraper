@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragments/head :: head}"/>
+
+    <!--x-editable-->
+    <link rel="stylesheet" th:href="@{/css/jquery-editable.css}"/>
+
+    <!--scripts-->
+    <th:block th:replace="~{fragments/scripts :: scripts}"/>
+
+    <!--x-editable-->
+    <script th:src="@{/js/jquery-editable-poshytip.js}"></script>
+    <script th:src="@{/js/data-edit.js}"></script>
+
+    <!--dataTables-->
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script th:src="@{/js/data-table-competitors.js}"></script>
+    <script th:src="@{/js/data-table-row-delete.js}"></script>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row mb-4">
+        <a href="/add/form" class="btn btn-primary btn-lg active mr-3"
+           role="button">Add new entry to the table</a>
+        <a href="/products" class="btn btn-primary btn-lg active mr-3"
+           role="button">View all products</a>
+        <a href="/emails" class="btn btn-primary btn-lg active"
+           role="button">View all notification emails</a>
+    </div>
+    <div class="row">
+        <table id="competitors_table_id" class="table">
+            <thead>
+            <tr>
+                <th scope="col">Product name</th>
+                <th scope="col">Vendor Product link</th>
+                <th scope="col">Vendor Current Price</th>
+                <th scope="col">Vendor Current Title</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody class="text-black">
+            <th:block th:each="entry : ${model}">
+
+                <tr>
+                    <td>
+                        <a href="#"
+                           th:data-name="${entry.productName}"
+                           class="product-name no-link-style"
+                           th:text="${entry.productName}">
+                        </a>
+                    </td>
+                    <td>
+                        <a th:href="@{/competitors/{id}(id=${entry.id})}" th:text="${entry.url}"></a>
+                    </td>
+                    <td th:text="${entry.currentPriceWithCurrency}"></td>
+                    <td th:text="${entry.currentTitle}"></td>
+                    <td>
+                        <div id="btn-delete-competitor">
+                            <form>
+                                <button th:competitor_id="${entry.id}" class="as-link" type="submit">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+
+            </th:block>
+            </tbody>
+        </table>
+        <br>
+    </div>
+</div>
+</body>
+</html>

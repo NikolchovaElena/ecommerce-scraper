@@ -1,5 +1,6 @@
 package com.demo.scraper.service;
 
+import com.demo.scraper.domain.entities.Competitor;
 import com.demo.scraper.domain.entities.Log;
 import com.demo.scraper.domain.entities.Product;
 import com.demo.scraper.domain.models.LogViewModel;
@@ -22,27 +23,25 @@ public class LogServiceImpl implements LogService {
         this.logRepository = logRepository;
     }
 
-    public void create(Product product, String scrapedPrice, String currency, String title) {
+    public void create(Competitor competitor, String scrapedPrice, String currency, String title) {
         BigDecimal price = scrapedPrice.isEmpty()
                 ? BigDecimal.ZERO
                 : new BigDecimal(scrapedPrice);
 
-        Log log = new Log(product, price, currency, title);
+        Log log = new Log(competitor, price, currency, title);
         logRepository.save(log);
     }
 
     @Override
     public List<LogViewModel> findAll(Long id) {
-        return logRepository.findAllByProductId(id)
+        return logRepository.findAllByCompetitorId(id)
                 .stream()
                 .map(l -> new LogViewModel(l.getTimestamp().getTime(), l.getPrice()))
                 .collect(Collectors.toList());
     }
 
-    public Log getCurrentLog(Product product) {
-        return this.logRepository.findFirstByProductOrderByTimestampDesc(product);
+    public Log getCurrentLog(Competitor competitor) {
+        return this.logRepository.findFirstByCompetitorOrderByTimestampDesc(competitor);
     }
-
-
 
 }

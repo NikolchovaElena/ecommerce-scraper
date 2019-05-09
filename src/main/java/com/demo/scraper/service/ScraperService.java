@@ -1,5 +1,6 @@
 package com.demo.scraper.service;
 
+import com.demo.scraper.domain.entities.Competitor;
 import com.demo.scraper.domain.entities.Product;
 import com.demo.scraper.service.api.LogService;
 import com.demo.scraper.service.api.ProductService;
@@ -24,15 +25,15 @@ public class ScraperService {
         this.webClient = webClient;
     }
 
-    String[] scrapeProductInfo(Product product) throws IOException {
+    String[] scrapeProductInfo(Competitor competitor) throws IOException {
         webClient.getOptions().setCssEnabled(false);
         webClient.getOptions().setJavaScriptEnabled(false);
 
-        String searchUrl = product.getUrl();
+        String searchUrl = competitor.getUrl();
         HtmlPage page = webClient.getPage(searchUrl);
 
-        HtmlElement productPrice = page.getFirstByXPath(product.getxPathToPrice());
-        HtmlElement productTitle = page.getFirstByXPath(product.getxPathToTitle());
+        HtmlElement productPrice = page.getFirstByXPath(competitor.getxPathToPrice());
+        HtmlElement productTitle = page.getFirstByXPath(competitor.getxPathToTitle());
 
         String title = productTitle == null ? "not found" : productTitle.asText();
         String price = getPrice(productPrice.asText());

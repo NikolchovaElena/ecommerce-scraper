@@ -21,9 +21,9 @@ public class LogController {
     }
 
     @ResponseBody
-    @GetMapping("/logs/product/{id}")
-    public List<LogViewModel> productLogChart(@PathVariable("id") Long productId) {
+    @GetMapping("/logs/competitors/{id}")
+    public List<LogViewModel> competitorLogChart(@PathVariable("id") Long competitorId) {
 
-        return logService.findAll(productId);
+        return logService.findAll(competitorId);
     }
 }
