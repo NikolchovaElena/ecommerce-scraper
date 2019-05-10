@@ -1,15 +1,14 @@
-package com.demo.scraper.service;
+package com.demo.scraper.util;
 
 import com.demo.scraper.domain.entities.Competitor;
 import com.demo.scraper.domain.entities.Product;
-import com.demo.scraper.service.api.EditDataService;
-import org.springframework.stereotype.Component;
+import com.demo.scraper.util.EditDataService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
 @Service
-public class XEditable implements EditDataService {
+public class XEditableImpl implements EditDataService {
     @Override
     public void edit(Competitor competitor, String name, String value) {
         switch (name) {

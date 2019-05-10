@@ -6,7 +6,7 @@ import com.demo.scraper.domain.models.ProductBindingModel;
 import com.demo.scraper.domain.models.ProductProjection;
 import com.demo.scraper.domain.models.ProductViewModel;
 import com.demo.scraper.repository.ProductRepository;
-import com.demo.scraper.service.api.EditDataService;
+import com.demo.scraper.util.EditDataService;
 import com.demo.scraper.service.api.LogService;
 import com.demo.scraper.service.api.ProductService;
 import org.modelmapper.ModelMapper;
@@ -27,16 +27,18 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final EditDataService editDataService;
+    private final EventService eventService;
     private final LogService logService;
     private final ModelMapper mapper;
     private final ScraperService scraper;
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository,
-                              EditDataService editDataService, LogService logService, ModelMapper mapper,
+                              EditDataService editDataService, EventService eventService, LogService logService, ModelMapper mapper,
                               ScraperService scraper) {
         this.productRepository = productRepository;
         this.editDataService = editDataService;
+        this.eventService = eventService;
         this.logService = logService;
         this.mapper = mapper;
         this.scraper = scraper;
@@ -82,7 +84,6 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
-
     @Override
     public boolean doesProductExists(Long id) {
         Product p = productRepository.findById(id).orElse(null);
@@ -110,35 +111,33 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * scrapes competitors product prices and titles
-     * creates new log for each scrape
-     * runs every day at noon
-     */
+    // scrapes competitors product prices and titles
+    // creates new log for each scrape
+    // runs every day at noon
+    @Scheduled(fixedRate = 18000000) //for testing
     // @Scheduled(cron = "0 0 12 * * ?", zone = TIME_ZONE)
-    @Scheduled(fixedRate = 18000000)
     private void updateLogs() throws IOException {
         List<Product> products = this.productRepository.findAll();
 
         for (Product product : products) {
             for (Competitor competitor : product.getCompetitors()) {
-
                 String[] scrapeResult = this.scraper.scrapeProductInfo(competitor);
 
+                eventService.onLowerPrice(competitor, scrapeResult);
                 logService.create(competitor, scrapeResult[0], scrapeResult[1], scrapeResult[2]);
             }
         }
     }
 
+    // deletes all products with no competitors
+    // runs every day at midnight
+    @Scheduled(fixedRate = 18000000) //for testing
 
-    /**
-     * deletes all products with no competitors
-     * runs every day at midnight
-     */
-    // @Scheduled(cron = "0 0 0 * * ?", zone = TIME_ZONE)
-    @Scheduled(fixedRate = 18000000)
-    private void removeProductsWithNoCompetitors() throws IOException {
+    //@Scheduled(cron = "0 0 0 * * ?", zone = TIME_ZONE)
+    private void removeProductsWithNoCompetitors() {
         List<Product> products = this.productRepository.findAllByCompetitorsIsEmpty();
         this.productRepository.deleteAll(products);
     }
+
+
 }

@@ -1,17 +1,14 @@
 package com.demo.scraper.service;
 
 import com.demo.scraper.domain.entities.Competitor;
-import com.demo.scraper.domain.entities.Product;
-import com.demo.scraper.service.api.LogService;
-import com.demo.scraper.service.api.ProductService;
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -66,9 +63,8 @@ public class ScraperService {
         } else if (input.contains("лв") || input.contains("BGN")) {
             currency = "BGN";
         } else {
-            currency = "unknown";
+            currency = "";
         }
         return currency;
     }
-
 }

@@ -7,7 +7,7 @@ import com.demo.scraper.domain.models.CompetitorDetailsViewModel;
 import com.demo.scraper.domain.models.CompetitorViewModel;
 import com.demo.scraper.repository.CompetitorRepository;
 import com.demo.scraper.service.api.CompetitorService;
-import com.demo.scraper.service.api.EditDataService;
+import com.demo.scraper.util.EditDataService;
 import com.demo.scraper.service.api.LogService;
 import com.demo.scraper.service.api.ProductService;
 import org.modelmapper.ModelMapper;
