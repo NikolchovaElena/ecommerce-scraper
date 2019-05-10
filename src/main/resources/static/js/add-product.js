@@ -5,10 +5,6 @@ $(document).ready(function () {
         var price = $('#product-price').val();
         var currency = $('#product-currency').val();
 
-        console.log(name);
-        console.log(price);
-        console.log(currency);
-
        var data = {
             name: name,
             currentPrice: price,

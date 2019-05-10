@@ -17,4 +17,5 @@ public class AppBeanConfiguration {
     public WebClient webClient() {
         return new WebClient();
     }
+
 }

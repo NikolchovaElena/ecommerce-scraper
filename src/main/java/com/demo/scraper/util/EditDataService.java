@@ -1,4 +1,4 @@
-package com.demo.scraper.service.api;
+package com.demo.scraper.util;
 
 import com.demo.scraper.domain.entities.Competitor;
 import com.demo.scraper.domain.entities.Product;
