@@ -6,7 +6,7 @@ A custom e-commerce scrapper with email notification functionality<br />
 The user creates a list of competitor e-commerce websites to be monitored.<br />
 Price information is scraped via HtmlUnit by xPath which the user provides.<br />
 Scraping is done on a scheduled time.<br />
-Notification emails are sent on price change condition.<br />
+Notification emails are sent on a certain price change.<br />
 
 ## Built With
 
