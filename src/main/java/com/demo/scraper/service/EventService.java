@@ -1,6 +1,7 @@
 package com.demo.scraper.service;
 
 import com.demo.scraper.domain.entities.Competitor;
+import com.demo.scraper.domain.entities.Log;
 import com.demo.scraper.service.events.OnLowerPriceUpdate;
 import com.demo.scraper.util.CurrencyConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class EventService {
@@ -26,7 +28,7 @@ public class EventService {
                 new OnLowerPriceUpdate(competitor, newPrice, currency));
     }
 
-    void onLowerPrice(Competitor competitor, String[] scrapedResult)  {
+    void onLowerPriceChange(Competitor competitor, String[] scrapedResult) {
         if (scrapedResult[0].equals("") || scrapedResult[1].equals("")) {
             return;
         }
@@ -37,7 +39,8 @@ public class EventService {
 
         scrapedPrice = currencyConverter.convert(scrapedCurrency, defaultCurrency, scrapedPrice);
 
-        if (isLower(scrapedPrice, currentPrice)) {
+        //if competitor price is changed and if new price is lower than ours
+        if (priceHasChanged(scrapedPrice, competitor) && isLower(scrapedPrice, currentPrice)) {
             initiateEvent(competitor, scrapedPrice, scrapedCurrency);
         }
     }
@@ -46,6 +49,12 @@ public class EventService {
     private boolean isLower(BigDecimal scrapedPrice, BigDecimal currentPrice) {
         BigDecimal val = currentPrice.multiply(BigDecimal.valueOf(0.9));
         return (scrapedPrice.compareTo(val)) <= 0;
+    }
+
+    private boolean priceHasChanged(BigDecimal scrapedPrice, Competitor competitor) {
+        Log log = competitor.getLogs().get(competitor.getLogs().size() - 1);
+
+        return log.getPrice().compareTo(scrapedPrice) != 0;
     }
 
 }
