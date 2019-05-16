@@ -124,7 +124,7 @@ public class ProductServiceImpl implements ProductService {
                 String[] scrapeResult = this.scraper.scrapeProductInfo(competitor);
 
                 if (scrapeResult != null) {
-                    eventService.onLowerPrice(competitor, scrapeResult);
+                    eventService.onLowerPriceChange(competitor, scrapeResult);
                     logService.create(competitor, scrapeResult[0], scrapeResult[1], scrapeResult[2]);
                 }
             }
