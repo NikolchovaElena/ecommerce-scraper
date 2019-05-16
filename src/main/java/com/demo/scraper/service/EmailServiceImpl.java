@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class EmailServiceImpl implements EmailService  {
-
     private final EmailRepository emailRepository;
     private final ModelMapper mapper;
 

@@ -10,6 +10,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PriceChangeListener implements ApplicationListener<OnLowerPriceUpdate> {
+    private static final String EMAIL_MESSAGE =
+            "Product price has changed for" +
+            "Vendor: %s%n" +
+            "Product: %s%n" +
+            "New Price: %s";
+    private static final String EMAIL_SUBJECT ="Product Price has changed";
 
     private MailSender mailSender;
     private EmailService emailService;
@@ -27,17 +33,14 @@ public class PriceChangeListener implements ApplicationListener<OnLowerPriceUpda
 
     private void sendEmail(OnLowerPriceUpdate event) {
         SimpleMailMessage email = new SimpleMailMessage();
-        String message = String.format(
-                "Vendor: %s%n " +
-                        "has changed %s price%n" +
-                        "to %s",
+        String message = String.format(EMAIL_MESSAGE,
                 event.getCompetitor().getUrl(),
                 event.getCompetitor().getProduct().getName(),
                 (event.getNewPrice() + " " + event.getCurrency()));
 
         emailService.findAll().forEach(e -> {
             email.setTo(e.getEmail());
-            email.setSubject("Product Price has changed");
+            email.setSubject(EMAIL_SUBJECT);
             email.setText(message);
             mailSender.send(email);
         });
