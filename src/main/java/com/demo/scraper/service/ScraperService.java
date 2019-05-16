@@ -32,7 +32,11 @@ public class ScraperService {
         HtmlElement productPrice = page.getFirstByXPath(competitor.getxPathToPrice());
         HtmlElement productTitle = page.getFirstByXPath(competitor.getxPathToTitle());
 
+        if (productPrice == null) {
+            return null;
+        }
         String title = productTitle == null ? "not found" : productTitle.asText();
+
         String price = getPrice(productPrice.asText());
         String currency = getCurrency(productPrice.asText());
 

@@ -123,8 +123,10 @@ public class ProductServiceImpl implements ProductService {
             for (Competitor competitor : product.getCompetitors()) {
                 String[] scrapeResult = this.scraper.scrapeProductInfo(competitor);
 
-                eventService.onLowerPrice(competitor, scrapeResult);
-                logService.create(competitor, scrapeResult[0], scrapeResult[1], scrapeResult[2]);
+                if (scrapeResult != null) {
+                    eventService.onLowerPrice(competitor, scrapeResult);
+                    logService.create(competitor, scrapeResult[0], scrapeResult[1], scrapeResult[2]);
+                }
             }
         }
     }
@@ -132,7 +134,6 @@ public class ProductServiceImpl implements ProductService {
     // deletes all products with no competitors
     // runs every day at midnight
     @Scheduled(fixedRate = 18000000) //for testing
-
     //@Scheduled(cron = "0 0 0 * * ?", zone = TIME_ZONE)
     private void removeProductsWithNoCompetitors() {
         List<Product> products = this.productRepository.findAllByCompetitorsIsEmpty();
