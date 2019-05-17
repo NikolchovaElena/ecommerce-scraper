@@ -28,14 +28,11 @@ public class EventService {
                 new OnLowerPriceUpdate(competitor, newPrice, currency));
     }
 
-    void onLowerPriceChange(Competitor competitor, String[] scrapedResult) {
-        if (scrapedResult[0].equals("") || scrapedResult[1].equals("")) {
-            return;
-        }
+    void onLowerPriceChange(Competitor competitor, String scrapedPriceAsString, String scrapedCurrency) {
+
         BigDecimal currentPrice = competitor.getProduct().getCurrentPrice();
         String defaultCurrency = competitor.getProduct().getCurrency();
-        BigDecimal scrapedPrice = new BigDecimal(scrapedResult[0]);
-        String scrapedCurrency = scrapedResult[1];
+        BigDecimal scrapedPrice = new BigDecimal(scrapedPriceAsString);
 
         scrapedPrice = currencyConverter.convert(scrapedCurrency, defaultCurrency, scrapedPrice);
 

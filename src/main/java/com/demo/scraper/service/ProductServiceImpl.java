@@ -30,12 +30,12 @@ public class ProductServiceImpl implements ProductService {
     private final EventService eventService;
     private final LogService logService;
     private final ModelMapper mapper;
-    private final ScraperService scraper;
+    private final ScraperServiceImpl scraper;
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository,
                               EditDataService editDataService, EventService eventService, LogService logService, ModelMapper mapper,
-                              ScraperService scraper) {
+                              ScraperServiceImpl scraper) {
         this.productRepository = productRepository;
         this.editDataService = editDataService;
         this.eventService = eventService;
@@ -116,16 +116,21 @@ public class ProductServiceImpl implements ProductService {
     // runs every day at noon
     @Scheduled(fixedRate = 18000000) //for testing
     // @Scheduled(cron = "0 0 12 * * ?", zone = TIME_ZONE)
-    private void updateLogs() throws IOException {
+    private void updateLogs(){
         List<Product> products = this.productRepository.findAll();
 
         for (Product product : products) {
             for (Competitor competitor : product.getCompetitors()) {
-                String[] scrapeResult = this.scraper.scrapeProductInfo(competitor);
 
-                if (scrapeResult != null) {
-                    eventService.onLowerPriceChange(competitor, scrapeResult);
-                    logService.create(competitor, scrapeResult[0], scrapeResult[1], scrapeResult[2]);
+                String scrapedPrice = this.scraper.scrapePrice(competitor);
+                String scrapedTitle = this.scraper.scrapeTitle(competitor);
+                String scrapedCurrency = this.scraper.scrapeCurrency(competitor);
+
+                if (scrapedPrice != null && scrapedCurrency != null) {
+                    eventService.onLowerPriceChange(competitor, scrapedPrice, scrapedCurrency);
+
+                    scrapedTitle = scrapedTitle == null ? "not found" : scrapedTitle;
+                    logService.create(competitor, scrapedPrice, scrapedCurrency, scrapedTitle);
                 }
             }
         }
