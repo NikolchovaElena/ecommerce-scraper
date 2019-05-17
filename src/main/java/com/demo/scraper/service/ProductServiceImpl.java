@@ -114,8 +114,8 @@ public class ProductServiceImpl implements ProductService {
     // scrapes competitors product prices and titles
     // creates new log for each scrape
     // runs every day at noon
-    @Scheduled(fixedRate = 18000000) //for testing
-    // @Scheduled(cron = "0 0 12 * * ?", zone = TIME_ZONE)
+    // @Scheduled(fixedRate = 18000000) //for testing
+    @Scheduled(cron = "0 0 12 * * ?", zone = TIME_ZONE)
     private void updateLogs(){
         List<Product> products = this.productRepository.findAll();
 
@@ -138,12 +138,11 @@ public class ProductServiceImpl implements ProductService {
 
     // deletes all products with no competitors
     // runs every day at midnight
-    @Scheduled(fixedRate = 18000000) //for testing
-    //@Scheduled(cron = "0 0 0 * * ?", zone = TIME_ZONE)
+    // @Scheduled(fixedRate = 18000000) //for testing
+    @Scheduled(cron = "0 0 0 * * ?", zone = TIME_ZONE)
     private void removeProductsWithNoCompetitors() {
         List<Product> products = this.productRepository.findAllByCompetitorsIsEmpty();
         this.productRepository.deleteAll(products);
     }
-
 
 }
