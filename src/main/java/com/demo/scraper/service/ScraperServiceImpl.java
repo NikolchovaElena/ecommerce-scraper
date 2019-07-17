@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 @Service
 public class ScraperServiceImpl implements ScraperService {
-    private final String priceRegex = "\\d{1,}[.|,]\\d+";
+    private final String priceRegex = "(\\d{1,}[.|,]\\d+)|(\\d+\\s+)";
     private final WebClient webClient;
 
     @Autowired
@@ -48,7 +48,11 @@ public class ScraperServiceImpl implements ScraperService {
                         ? m.group().replace(",", ".")
                         : m.group();
 
-                return price;
+                price = price.trim();
+
+                return price.contains(".")
+                        ? price
+                        : price + ".00";
             }
         }
         return null;

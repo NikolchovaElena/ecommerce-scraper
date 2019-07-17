@@ -1,6 +1,4 @@
 package com.demo.scraper.web.controllers;
-
-import com.demo.scraper.domain.models.ProductBindingModel;
 import com.demo.scraper.repository.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

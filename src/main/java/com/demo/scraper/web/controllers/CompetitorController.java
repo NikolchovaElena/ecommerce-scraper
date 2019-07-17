@@ -29,18 +29,18 @@ public class CompetitorController extends BaseController {
     public ModelAndView competitors(ModelAndView modelAndView) {
         modelAndView.addObject("model", competitorService.findAll());
 
-        return view("competitors", modelAndView);
+        return view("index", modelAndView);
     }
 
-    @GetMapping("/add/form")
+    @GetMapping("/vendor/form")
     public ModelAndView getVendorForm(ModelAndView modelAndView) {
 
         modelAndView.addObject("model", new CompetitorBindingModel());
         modelAndView.addObject("products", fetchProductNames());
-        return view("competitor-form", modelAndView);
+        return view("add-vendor-form", modelAndView);
     }
 
-    @PostMapping("/add/form")
+    @PostMapping("/vendor/form")
     public ModelAndView addVendor(@Valid @ModelAttribute("model") CompetitorBindingModel model,
                                   BindingResult bindingResult,
                                   ModelAndView modelAndView) {
@@ -48,7 +48,7 @@ public class CompetitorController extends BaseController {
             modelAndView.addObject("model", model);
             modelAndView.addObject("products", fetchProductNames());
             modelAndView.addObject("selected", model.getProductId());
-            return view("competitor-form", modelAndView);
+            return view("add-vendor-form", modelAndView);
         }
 
         competitorService.add(model);

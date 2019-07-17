@@ -26,4 +26,6 @@ public interface ProductService {
     void deleteCompetitor(Product product, Competitor competitor);
 
     List<ProductViewModel> findAll();
+
+    Product findById(Long id);
 }

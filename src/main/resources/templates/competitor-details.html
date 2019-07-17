@@ -1,77 +1,58 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <th:block th:replace="~{fragments/head :: head}"/>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" layout:decorator="layouts/layout">
+<div layout:fragment="content">
+<!-- Competitor Information Start -->
+<div class="data-table-area">
+    <div class="container">
 
-    <!--x-editable-->
-    <link rel="stylesheet" th:href="@{/css/jquery-editable.css}"/>
+        <div class="jumbotron white-jumbo">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="basic-tb-hd">
+                        <h2 th:text="${competitor.productName}"></h2>
+                        <mark th:text="'Current Competitor\'s price: '+${competitor.currentPrice}"></mark>
+                        <input type="hidden" id="competitor_id" th:value="${competitor.id}"/>
+                        <input type="hidden" id="series_name" th:value="${competitor.url}"/>
+                    </div>
+                    <dt class="col-sm-3 comp-details">Product Link:</dt>
 
-    <!--scripts-->
-    <th:block th:replace="~{fragments/scripts :: scripts}"/>
+                  <dd class="col-sm-9 comp-details">
+                        <a href="#"
+                           id="url"
+                           data-type="text"
+                           th:data-pk="${competitor.id}"
+                           data-url="/edit/competitor"
+                           th:text="${competitor.url}"></a>
+                    </dd>
 
-    <!--x-editable-->
-    <script th:src="@{/js/jquery-editable-poshytip.js}"></script>
-    <script th:src="@{/js/data-edit.js}"></script>
+                    <dt class="col-sm-3 comp-details">Product xPath to price:</dt>
+                    <dd class="col-sm-9 comp-details">
+                        <a href="#"
+                           id="xPathToPrice"
+                           data-type="text"
+                           th:data-pk="${competitor.id}"
+                           data-url="/edit/competitor"
+                           th:text="${competitor.xPathToPrice}"></a>
+                    </dd>
 
-    <!--highCharts-->
-    <script src="http://code.highcharts.com/stock/highstock.js"></script>
-    <script th:src="@{/js/data-chart.js}"></script>
-</head>
-
-<body>
-<div class="container mt-5">
-    <div class="row">
-        <div class="jumbotron">
-            <dl class="row" id="product_info">
-                <dt class="col-sm-3">Product Name:</dt>
-                <dd class="col-sm-9"><h5 th:text="${competitor.productName}"></h5></dd>
-
-                <dt class="col-sm-3">Product current Price:</dt>
-                <dd class="col-sm-9">
-                    <h5>
-                        <mark th:text="${competitor.currentPrice}"></mark>
-                    </h5>
-                </dd>
-
-                <dt class="col-sm-3">Product Link:</dt>
-                <dd class="col-sm-9">
-                    <a href="#"
-                       id="url"
-                       data-type="text"
-                       th:data-pk="${competitor.id}"
-                       data-url="/edit/competitor"
-                       th:text="${competitor.url}"></a>
-                </dd>
-
-                <dt class="col-sm-3">Product xPath to price:</dt>
-                <dd class="col-sm-9">
-                    <a href="#"
-                       id="xPathToPrice"
-                       data-type="text"
-                       th:data-pk="${competitor.id}"
-                       data-url="/edit/competitor"
-                       th:text="${competitor.xPathToPrice}"></a>
-                </dd>
-
-                <dt class="col-sm-3">Product xPath to title:</dt>
-                <dd class="col-sm-9">
-                    <a href="#"
-                       id="xPathToTitle"
-                       data-type="text"
-                       th:data-pk="${competitor.id}"
-                       data-url="/edit/competitor"
-                       th:text="${competitor.xPathToTitle}"></a>
-                </dd>
-            </dl>
-
-            <a href="/"><i class="fas fa-arrow-left"></i> Back to all products</a>
+                    <dt class="col-sm-3 comp-details">Product xPath to title:</dt>
+                    <dd class="col-sm-9 comp-details">
+                        <a href="#"
+                           id="xPathToTitle"
+                           data-type="text"
+                           th:data-pk="${competitor.id}"
+                           data-url="/edit/competitor"
+                           th:text="${competitor.xPathToTitle}"></a>
+                    </dd>
+                </div>
+        </div>
         </div>
 
-        <input type="hidden" id="competitor_id" th:value="${competitor.id}"/>
-        <input type="hidden" id="series_name" th:value="${competitor.url}"/>
-        <div id="container"></div>
-
+        <div class="row">
+            <div id="container"></div>
+        </div>
     </div>
 </div>
-</body>
+<!-- Competitor Information End-->
+</div>
 </html>
