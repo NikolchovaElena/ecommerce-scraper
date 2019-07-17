@@ -111,12 +111,18 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Product findById(Long id) {
+        return productRepository.findById(id).
+                orElseThrow(() -> new NullPointerException("No product by that id!"));
+    }
+
     // scrapes competitors product prices and titles
     // creates new log for each scrape
     // runs every day at noon
-    // @Scheduled(fixedRate = 18000000) //for testing
-    @Scheduled(cron = "0 0 12 * * ?", zone = TIME_ZONE)
-    private void updateLogs(){
+     @Scheduled(fixedRate = 18000000) //for testing
+    //@Scheduled(cron = "0 0 12 * * ?", zone = TIME_ZONE)
+    private void updateLogs() {
         List<Product> products = this.productRepository.findAll();
 
         for (Product product : products) {
@@ -127,10 +133,10 @@ public class ProductServiceImpl implements ProductService {
                 String scrapedCurrency = this.scraper.scrapeCurrency(competitor);
 
                 if (scrapedPrice != null && scrapedCurrency != null) {
-                    eventService.onLowerPriceChange(competitor, scrapedPrice, scrapedCurrency);
-
                     scrapedTitle = scrapedTitle == null ? "not found" : scrapedTitle;
                     logService.create(competitor, scrapedPrice, scrapedCurrency, scrapedTitle);
+
+                    eventService.onLowerPriceChange(competitor, scrapedPrice, scrapedCurrency);
                 }
             }
         }

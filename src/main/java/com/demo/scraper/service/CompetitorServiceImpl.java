@@ -2,6 +2,7 @@ package com.demo.scraper.service;
 
 import com.demo.scraper.domain.entities.Competitor;
 import com.demo.scraper.domain.entities.Log;
+import com.demo.scraper.domain.entities.Product;
 import com.demo.scraper.domain.models.CompetitorBindingModel;
 import com.demo.scraper.domain.models.CompetitorDetailsViewModel;
 import com.demo.scraper.domain.models.CompetitorViewModel;
@@ -41,10 +42,10 @@ public class CompetitorServiceImpl implements CompetitorService {
 
     @Override
     public void add(CompetitorBindingModel model) {
-        if (!this.productService.doesProductExists(model.getProductId())) {
-            throw new NullPointerException("No product by that id!");
-        }
+        Product p = this.productService.findById(model.getProductId());
+
         Competitor competitor = mapper.map(model, Competitor.class);
+        competitor.setProduct(p);
         this.competitorRepository.save(competitor);
     }
 
@@ -109,7 +110,6 @@ public class CompetitorServiceImpl implements CompetitorService {
     }
 
     private String getCurrentPrice(Log log) {
-
         return log == null ? "" : log.getPrice() + " " + log.getCurrency();
     }
 

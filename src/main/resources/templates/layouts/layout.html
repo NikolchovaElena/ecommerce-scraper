@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html class="no-js" lang="" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <th:block th:replace="~{fragments/head :: head}"/>
+
+    <!--x-editable-->
+    <link rel="stylesheet" th:href="@{/css/jquery-editable.css}"/>
+
+    <th:block th:replace="~{fragments/scripts :: scripts}"/>
+
+    <!--x-editable-->
+    <script th:src="@{/js/jquery-editable-poshytip.js}"></script>
+    <script th:src="@{/js/data-edit.js}"></script>
+
+</head>
+
+<body>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<!-- Start Header Top Area -->
+<th:block th:replace="~{fragments/header :: header}"/>
+<!-- End Header Top Area -->
+
+<!-- Main Menu area start-->
+<th:block th:replace="~{fragments/navbar :: navbar}"/>
+<!-- Main Menu area End-->
+
+<!-- Data Table area Start-->
+<main>
+    <div layout:fragment="content"></div>
+</main>
+<!-- Data Table area End-->
+
+<!-- Start Footer area-->
+<th:block th:replace="~{fragments/footer :: footer}"/>
+<!-- End Footer area-->
+
+</body>
+
+</html>

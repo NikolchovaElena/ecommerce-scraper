@@ -1,0 +1,237 @@
+<!doctype html>
+<html class="no-js" lang="" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="~{fragments/head :: head}"/>
+    <!-- bootstrap select CSS
+		============================================ -->
+    <link rel="stylesheet" href="/notika/css/bootstrap-select/bootstrap-select.css">
+</head>
+
+<body>
+<!-- Start Header Top Area -->
+<th:block th:replace="~{fragments/header :: header}"/>
+<!-- End Header Top Area -->
+
+<!-- Main Menu area start-->
+<th:block th:replace="~{fragments/navbar :: navbar}"/>
+<!-- Main Menu area End-->
+
+<!-- Form Examples area start-->
+<div class="form-example-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-example-wrap">
+                    <div class="cmp-tb-hd cmp-int-hd">
+                        <h2>Add new Product</h2>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                            <div class="form-example-int form-example-st">
+                                <div class="form-group">
+                                    <div class="nk-int-st">
+                                        <input type="text"
+                                               id="product-name"
+                                               name="product"
+                                               class="form-control input-sm"
+                                               placeholder="Add product to the list">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                            <div class="form-example-int form-example-st">
+                                <div class="form-group">
+                                    <div class="nk-int-st">
+                                        <input type="number"
+                                               id="product-price"
+                                               name="currentPrice"
+                                               class="form-control"
+                                               placeholder="Price">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                            <div class="form-example-int form-example-st">
+                                <div class="form-group">
+                                    <div class="nk-int-st">
+                                        <input type="text"
+                                               id="product-currency"
+                                               name="currency"
+                                               class="form-control input-sm"
+                                               placeholder="Currency">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                            <div class="form-example-int">
+                                <button id="btn-add-product"
+                                        class="btn btn-success notika-btn-success">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-example-wrap mg-t-30">
+                    <div class="cmp-tb-hd cmp-int-hd">
+                        <h2>Vendor Data</h2>
+                    </div>
+                    <form action="/vendor/form" method="post" th:object="${model}">
+                        <div class="form-example-int form-horizental">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="hrzn-fm">Product</label>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="bootstrap-select fm-cmp-mg">
+                                            <div class="btn-group bootstrap-select">
+                                                <div class="dropdown-menu open" role="combobox"
+                                                     style="max-height: 258.778px; overflow: hidden; min-height: 132px;">
+
+                                                    <ul class="dropdown-menu inner" role="listbox" aria-expanded="false"
+                                                        style="max-height: 248.778px; overflow-y: auto; min-height: 122px;">
+                                                        <li th:each="product : ${products}" data-original-index="0" class="">
+                                                                                                <a tabindex="0" class=""
+                                                                                                style=""
+                                                                                                data-tokens="null"
+                                                                                                role="option"
+                                                                                                aria-disabled="false"
+                                                                                                aria-selected="false">
+                                                            <span class="text">Drama</span>
+                                                            <span class="notika-icon notika-checked check-mark"></span>
+                                                        </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <select id="inputProduct" class="selectpicker" tabindex="-98"
+                                                        name="productId" data-placeholder="Choose a Product...">
+                                                    <option th:each="product : ${products}"
+                                                            th:selected="${selected}==${product.id}"
+                                                            th:value="${product.id}"
+                                                            th:text="${product.name}">
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="form-example-int form-horizental">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="hrzn-fm">Vendor link</label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                        <div class="nk-int-st">
+                                            <input type="text"
+                                                   class="form-control input-sm"
+                                                   name="url"
+                                                   th:field="*{url}"
+                                                   id="inputProductLink"
+                                                   placeholder="Enter vendor link">
+                                        </div>
+                                        <div th:each="error : ${#fields.errors('url')}">
+                                            <small class="field-error" th:text="${error}"></small>
+                                            <br/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-example-int form-horizental mg-t-15">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="hrzn-fm">xPath to price</label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                        <div class="nk-int-st">
+                                            <input type="text"
+                                                   class="form-control input-sm"
+                                                   name="xPathToPrice"
+                                                   th:field="*{xPathToPrice}"
+                                                   id="inputPriceXPath"
+                                                   placeholder="Enter xPath to price">
+                                            <div th:each="error : ${#fields.errors('xPathToPrice')}">
+                                                <small class="field-error" th:text="${error}"></small>
+                                                <br/>
+                                            </div>
+                                            <button type="button" id="xPath-price-btn" class="btn btn-link">
+                                                <small>Test xPath</small>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-example-int form-horizental mg-t-15">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                        <label class="hrzn-fm">xPath to title</label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                        <div class="nk-int-st">
+                                            <input type="text"
+                                                   class="form-control input-sm"
+                                                   name="xPathToTitle"
+                                                   th:field="*{xPathToTitle}"
+                                                   id="inputTitleXPath"
+                                                   placeholder="Enter xPath to product title">
+                                            <div th:each="error : ${#fields.errors('xPathToTitle')}">
+                                                <small class="field-error" th:text="${error}"></small>
+                                                <br/>
+                                            </div>
+                                            <button type="button" id="xPath-title-btn" class="btn btn-link">
+                                                <small>Test xPath</small>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-example-int mg-t-15">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                </div>
+                                <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                    <button class="btn btn-success notika-btn-success">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Form Examples area End-->
+
+<!-- Start Footer area-->
+<th:block th:replace="~{fragments/footer :: footer}"/>
+<!-- End Footer area-->
+<!-- Start Scripts area-->
+<th:block th:replace="~{fragments/scripts :: scripts}"/>
+<!-- bootstrap select JS
+    ============================================ -->
+<script src="/notika/js/bootstrap-select/bootstrap-select.js"></script>
+
+<script th:src="@{/js/add-product.js}"></script>
+<script th:src="@{/js/test-xpath.js}"></script>
+
+<!-- End Scripts area-->
+</body>
+
+</html>

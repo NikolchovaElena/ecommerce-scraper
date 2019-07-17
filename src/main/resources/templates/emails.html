@@ -1,67 +1,82 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <th:block th:replace="~{fragments/head :: head}"/>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" layout:decorator="layouts/layout">
+<div layout:fragment="content">
 
-    <!--scripts-->
-    <th:block th:replace="~{fragments/scripts :: scripts}"/>
-    <script th:src="@{/js/add-email.js}"></script>
-    <script th:src="@{/js/delete-email.js}"></script>
-</head>
-<body>
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
+    <!-- Normal Table area Start-->
+    <div class="normal-table-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="normal-table-list">
+                        <div class="basic-tb-hd">
+                            <h2>Send Email Notifications To:</h2>
+                            <p>A notification will be send to all emails in the table upon change
+                                in competitor's price / when competitor's price becomes with 10% lower than shop
+                                owner's</p>
+                        </div>
+                        <div class="bsc-tbl" th:if="${not #lists.isEmpty(model)}">
+                            <table class="table table-sc-ex">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Email</th>
+                                    <th scope="col"></th>
+                                </tr>
+                                </thead>
+                                <tbody class="text-black">
+                                <th:block th:each="entry : ${model}">
+                                    <tr>
+                                        <td th:text="${entry.email}"></td>
+                                        <td>
+                                            <div id="btn-delete-email">
+                                                <form>
+                                                    <button th:email_id="${entry.id}" class="as-link" type="submit">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!--Add new-->
             <div class="row">
-                <div class="form-group col-md-8">
-                    <input type="email" class="form-control"
-                           id="email"
-                           placeholder="Add email to the list">
-                </div>
-
-                <div class="col-md-3">
-                    <button id="btn-add-email" class="btn btn-primary active"
-                            type="submit">Add
-                    </button>
-                </div>
-            </div>
-            <br>
-            <!--Table-->
-            <div class="row">
-                <div class="form-group col-md-8">
-                    <table id="emails_table_id" class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">Email</th>
-                            <th scope="col"></th>
-                        </tr>
-                        </thead>
-                        <tbody class="text-black">
-                        <th:block th:each="entry : ${model}">
-
-                            <tr>
-                                <td th:text="${entry.email}"></td>
-                                <td>
-                                    <div id="btn-delete-email">
-                                        <form>
-                                            <button th:email_id="${entry.id}" class="as-link" type="submit">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </form>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-example-wrap">
+                        <div class="cmp-tb-hd cmp-int-hd">
+                            <h2>Add new email</h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                                <div class="form-example-int form-example-st">
+                                    <div class="form-group">
+                                        <div class="nk-int-st">
+                                            <input type="email" class="form-control input-sm"
+                                                   id="email"
+                                                   placeholder="Add email to the list">
+                                        </div>
                                     </div>
-                                </td>
-                            </tr>
-                        </th:block>
-                        </tbody>
-                    </table>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                <div class="form-example-int">
+                                    <button id="btn-add-email" class="btn btn-success notika-btn-success">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <a href="/"><i class="fas fa-arrow-left"></i> Back to all products</a>
         </div>
+
     </div>
+    <!-- Normal Table area End-->
+
+
 </div>
-</body>
 </html>

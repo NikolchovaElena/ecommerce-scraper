@@ -23,7 +23,8 @@ public class EmailServiceImpl implements EmailService  {
 
     @Override
     public void add(String email) {
-        emailRepository.save(new Email(email));
+        Email e = new Email(email);
+        emailRepository.save(e);
     }
 
     @Override
