@@ -4,3 +4,11 @@ src/main/resources/static/fonts/* linguist-vendored
 src/main/resources/static/css/* linguist-vendored
 
 src/main/resources/templates/* linguist-vendored
+
+
+src/main/resources/static/notika/scss/* linguist-vendored
+src/main/resources/static/images/notika/* linguist-vendored
+src/main/resources/static/fonts/notika/* linguist-vendored
+src/main/resources/static/css/notika/* linguist-vendored
+
+src/main/resources/templates/notika/* linguist-vendored
